@@ -19,10 +19,11 @@ public class MapGenerator : MonoBehaviour
     public void GenerateMap() {
         float[,] noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, seed, noiseScale, octaves, lacunarity, persistance);
 
+        var meshGenerator = FindObjectOfType<MeshGenerator>();
+        meshGenerator.GenerateMesh(noiseMap);
+        
         var display = FindObjectOfType<MapDisplay>();
         display.DrawNoiseMap(noiseMap);
 
-        var meshGenerator = FindObjectOfType<MeshGenerator>();
-        meshGenerator.GenerateMesh(noiseMap);
     }
 }

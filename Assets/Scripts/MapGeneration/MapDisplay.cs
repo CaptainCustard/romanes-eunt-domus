@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class MapDisplay : MonoBehaviour
 {
-    public Renderer textureRender;
-
     public void DrawNoiseMap(float[,] noiseMap) {
         int width = noiseMap.GetLength(0);
         int height = noiseMap.GetLength(1);
@@ -24,7 +22,9 @@ public class MapDisplay : MonoBehaviour
         texture.SetPixels(colorMap);
         texture.Apply();
 
-        textureRender.sharedMaterial.mainTexture = texture;
-        textureRender.transform.localScale = new Vector3(width, 1, height);
+        Renderer renderer = FindObjectOfType<MeshRenderer>();
+        var mat = Resources.Load("MapMaterial") as Material;
+        mat.mainTexture = texture;
+        renderer.sharedMaterial = mat;
     }
 }
