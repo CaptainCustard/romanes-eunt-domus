@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class Noise
 {
     public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, float scale, int octaves, int lacunarity, float persistance) {
         float[,] noiseMap = new float[mapWidth, mapHeight];
+        float normalize = Enumerable.Range(0, octaves).Sum(n => Mathf.Pow(persistance, n));
 
         if (scale <= 0)
         {
@@ -22,11 +24,11 @@ public static class Noise
                     float frequency = Mathf.Pow(lacunarity, (float)i);
                     float sampleX = x / scale * frequency;
                     float sampleY = y / scale * frequency;
-                    float perlinValue = Mathf.PerlinNoise(sampleX, sampleY);
+                    float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
                     totalPerlin += perlinValue * Mathf.Pow(persistance, (float)i);
                 }
 
-                noiseMap[x, y] = totalPerlin / octaves;
+                noiseMap[x, y] = ((totalPerlin / normalize) + 1) / 2;
             }
         }
 
