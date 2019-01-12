@@ -18,5 +18,10 @@ public class MapGeneratorEditor : Editor
         {
             mapGenerator.GenerateMap();
         }
+
+        if (GUILayout.Button("Generate (Random Seed)"))
+        {
+            mapGenerator.GenerateWithRandomSeed();
+        }
     }
 }

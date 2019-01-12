@@ -11,9 +11,7 @@ public class MapGenerator : MonoBehaviour
     public int octaves;
     public float lacunarity;
     public float persistance;
-
     public bool autoGenerate;
-
 
 
     public void GenerateMap() {
@@ -24,6 +22,10 @@ public class MapGenerator : MonoBehaviour
 
         var display = FindObjectOfType<MapDisplay>();
         display.DrawNoiseMap(noiseMap);
+    }
 
+    public void GenerateWithRandomSeed() {
+        seed = Random.Range(0, int.MaxValue);
+        GenerateMap();
     }
 }
