@@ -157,9 +157,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapWidth: 100
   mapHeight: 100
-  noiseScale: 10
-  octaves: 3
-  lacunarity: 3
+  seed: 10
+  noiseScale: 27.6
+  octaves: 5
+  lacunarity: 2.91
   persistance: 0.35
   autoGenerate: 1
 --- !u!4 &39615960
