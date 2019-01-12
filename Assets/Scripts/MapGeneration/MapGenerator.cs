@@ -13,7 +13,11 @@ public class MapGenerator : MonoBehaviour
     public void GenerateMap() {
         float[,] noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, noiseScale);
 
-        MapDisplay display = FindObjectOfType<MapDisplay>();
+        var display = FindObjectOfType<MapDisplay>();
         display.DrawNoiseMap(noiseMap);
+
+        var terrain = FindObjectOfType<Terrain>();
+        var terrainData = terrain.terrainData;
+        terrainData.SetHeights(0, 0, noiseMap);
     }
 }
