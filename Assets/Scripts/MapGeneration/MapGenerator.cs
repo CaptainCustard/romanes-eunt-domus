@@ -21,5 +21,9 @@ public class MapGenerator : MonoBehaviour
 
         var display = FindObjectOfType<MapDisplay>();
         display.DrawNoiseMap(noiseMap);
+
+        var meshGenerator = FindObjectOfType<MeshGenerator>();
+        var texture = display.textureRender.sharedMaterial.mainTexture as Texture2D;
+        meshGenerator.GenerateMesh(texture);
     }
 }
