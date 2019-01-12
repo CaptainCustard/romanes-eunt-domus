@@ -20,9 +20,5 @@ public class MapGenerator : MonoBehaviour
 
         var display = FindObjectOfType<MapDisplay>();
         display.DrawNoiseMap(noiseMap);
-
-        var terrain = FindObjectOfType<Terrain>();
-        var terrainData = terrain.terrainData;
-        terrainData.SetHeights(0, 0, noiseMap);
     }
 }
