@@ -20,8 +20,8 @@ public class MapGenerator : MonoBehaviour
         float[,] noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, seed, noiseScale, octaves, lacunarity, persistance);
 
         var meshGenerator = FindObjectOfType<MeshGenerator>();
-        meshGenerator.GenerateMesh(noiseMap);
-        
+        meshGenerator.GenerateMesh(noiseMap, this.transform);
+
         var display = FindObjectOfType<MapDisplay>();
         display.DrawNoiseMap(noiseMap);
 

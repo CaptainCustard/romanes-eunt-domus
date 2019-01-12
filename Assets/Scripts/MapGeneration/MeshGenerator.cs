@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MeshGenerator : MonoBehaviour
 {
-	public void GenerateMesh(float[,] hMap)
+	public void GenerateMesh(float[,] hMap, Transform transform)
 	{
 		List<Vector3> verts = new List<Vector3>();
 		List<int> triangles = new List<int>();
@@ -50,5 +50,6 @@ public class MeshGenerator : MonoBehaviour
 		procMesh.triangles = triangles.ToArray();
 		procMesh.RecalculateNormals(); // Determines which way the triangles are facing
 		plane.GetComponent<MeshFilter>().mesh = procMesh;
+		plane.transform.localScale = transform.localScale;
 	}
 }
