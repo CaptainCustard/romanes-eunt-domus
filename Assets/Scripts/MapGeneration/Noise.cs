@@ -22,7 +22,7 @@ public static class Noise
             for (var x = 0; x < mapWidth; x++)
             {
                 var totalPerlin = 0f;
-                for (int i = 0; i < octaves; i++)
+                for (var i = 0; i < octaves; i++)
                 {
                     var frequency = Mathf.Pow(lacunarity, (float)i);
                     var sampleX = x / scale * frequency + octaveOffsets[i].x;
