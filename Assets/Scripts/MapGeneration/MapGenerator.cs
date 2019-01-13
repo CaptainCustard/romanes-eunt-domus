@@ -10,12 +10,12 @@ public class MapGenerator : MonoBehaviour
     public float noiseScale;
     public int octaves;
     public float lacunarity;
-    public float persistance;
+    public float persistence;
     public bool autoGenerate;
 
 
     public void GenerateMap() {
-        float[,] noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, seed, noiseScale, octaves, lacunarity, persistance);
+        var noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, seed, noiseScale, octaves, lacunarity, persistence);
 
         var meshGenerator = FindObjectOfType<MeshGenerator>();
         meshGenerator.GenerateMesh(noiseMap, this.transform);
