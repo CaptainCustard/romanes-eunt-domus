@@ -7,7 +7,7 @@ using UnityEditor;
 public class MapGeneratorEditor : Editor
 {
     public override void OnInspectorGUI() {
-        MapGenerator mapGenerator = target as MapGenerator;
+        var mapGenerator = target as MapGenerator;
 
         if (DrawDefaultInspector() && mapGenerator.autoGenerate)
         {
