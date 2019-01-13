@@ -23,7 +23,7 @@ public class MapDisplay : MonoBehaviour
         texture.Apply();
 
         Renderer renderer = FindObjectOfType<MeshRenderer>();
-        var mat = Resources.Load("MapMaterial") as Material;
+        var mat = new Material(Resources.Load("MapMaterial") as Material);
         mat.mainTexture = texture;
         mat.mainTextureScale = new Vector2(1f / width, 1f / height);
         renderer.sharedMaterial = mat;
