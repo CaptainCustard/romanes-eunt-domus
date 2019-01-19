@@ -6,26 +6,72 @@ public class MapGenerator : MonoBehaviour
 {
     public int mapWidth;
     public int mapHeight;
-    public int seed;
-    public float noiseScale;
-    public int octaves;
-    public float lacunarity;
-    public float persistence;
+    public NoiseData noiseData;
+    public TerrainData terrainData;
+    public TextureData textureData;
+    public Material terrainMaterial;
+
     public bool autoGenerate;
 
+    void OnValuesUpdated() {
+        if (!Application.isPlaying)
+        {
+            this.GenerateMap();
+        }
+    }
 
+    void OnTextureValuesUpdated() {
+        textureData.ApplyToMaterial(terrainMaterial);
+    }
     public void GenerateMap() {
-        var noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, seed, noiseScale, octaves, lacunarity, persistence);
+        MapData mapData = GenerateMapData ();
 
         var meshGenerator = FindObjectOfType<MeshGenerator>();
-        meshGenerator.GenerateMesh(noiseMap, this.transform);
-
-        var display = FindObjectOfType<MapDisplay>();
-        display.DrawNoiseMap(noiseMap);
+        meshGenerator.GenerateMesh(mapData.heightMap, this.transform, terrainData.mapHeightMultiplier, terrainData.mapHeightCurve);
     }
 
     public void GenerateWithRandomSeed() {
-        seed = Random.Range(0, int.MaxValue);
+        noiseData.seed = Random.Range(0, int.MaxValue);
         GenerateMap();
     }
+
+    MapData GenerateMapData() {
+		float[,] noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, noiseData.seed, noiseData.noiseScale, noiseData.octaves, noiseData.lacunarity, noiseData.persistence, terrainData.useFalloff);
+
+		textureData.UpdateMeshHeights (terrainMaterial, terrainData.minHeight, terrainData.maxHeight);
+
+		return new MapData (noiseMap);
+	}
+
+    void OnValidate() {
+        textureData.UpdateMeshHeights(terrainMaterial, terrainData.minHeight, terrainData.maxHeight);
+        textureData.ApplyToMaterial(terrainMaterial);
+        
+        if (noiseData != null)
+        {
+            noiseData.OnValuesUpdated -= OnValuesUpdated;
+            noiseData.OnValuesUpdated += OnValuesUpdated;
+        }
+
+        if (terrainData != null)
+        {
+            terrainData.OnValuesUpdated -= OnValuesUpdated;
+            terrainData.OnValuesUpdated += OnValuesUpdated;
+        }
+
+        if (textureData != null)
+        {
+            textureData.OnValuesUpdated -= OnTextureValuesUpdated;
+            textureData.OnValuesUpdated += OnTextureValuesUpdated;
+        }
+    }
+}
+
+public struct MapData {
+	public readonly float[,] heightMap;
+
+	public MapData (float[,] heightMap)
+	{
+		this.heightMap = heightMap;
+	}
 }

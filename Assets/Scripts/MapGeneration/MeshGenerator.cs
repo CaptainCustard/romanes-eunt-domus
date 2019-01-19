@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MeshGenerator : MonoBehaviour
 {
-	public void GenerateMesh(float[,] heightMap, Transform transform)
+	public void GenerateMesh(float[,] heightMap, Transform transform, float mapHeightMultiplier, AnimationCurve mapHeightCurve)
 	{
 		var verts = new List<Vector3>();
 		var triangles = new List<int>();
@@ -16,7 +16,11 @@ public class MeshGenerator : MonoBehaviour
 		{
 			for (var j = 0; j < zMax; j++)
 			{
-				verts.Add(new Vector3(i, heightMap[i,j] * 100, j));
+				try{
+				verts.Add(new Vector3(i, mapHeightCurve.Evaluate(heightMap[i,j]) * mapHeightMultiplier, j));
+				} catch {
+					Debug.Log("ERROR");
+				}
 			}
 		}
 
@@ -39,15 +43,17 @@ public class MeshGenerator : MonoBehaviour
 			uvs[i] = new Vector2(verts[i].x, verts[i].z);
 		}
 
-		var existingPlane = GameObject.Find("GeneratedPlane");
-		if (existingPlane != null)
-		{
-			GameObject.DestroyImmediate(existingPlane);
-		}
+		// var existingPlane = GameObject.Find("GeneratedPlane");
+		// if (existingPlane != null)
+		// {
+		// 	GameObject.DestroyImmediate(existingPlane);
+		// }
 
-		var plane = new GameObject("GeneratedPlane");
-		plane.AddComponent<MeshFilter>();
-		plane.AddComponent<MeshRenderer>();
+		// var plane = new GameObject("GeneratedPlane");
+		// plane.AddComponent<MeshFilter>();
+		// plane.AddComponent<MeshRenderer>();
+
+		var plane = GameObject.Find("GeneratedPlane");
 
 		var procMesh = new Mesh();
 		procMesh.vertices = verts.ToArray();
@@ -56,7 +62,7 @@ public class MeshGenerator : MonoBehaviour
 		procMesh.RecalculateNormals(); // Determines which way the triangles are facing
 
 		var meshFilter = plane.GetComponent<MeshFilter>();
-		meshFilter.mesh = procMesh;
-		plane.transform.localScale = transform.localScale;
+		meshFilter.sharedMesh = procMesh;
+		meshFilter.transform.localScale = transform.localScale;
 	}
 }
