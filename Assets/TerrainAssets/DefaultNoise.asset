@@ -16,5 +16,5 @@ MonoBehaviour:
   noiseScale: 36.06
   octaves: 5
   lacunarity: 2
-  persistence: 0.281
-  seed: 1576805545
+  persistence: 0.289
+  seed: 1794095976
