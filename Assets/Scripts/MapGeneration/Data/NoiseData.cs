@@ -7,6 +7,7 @@ public class NoiseData : UpdatableData
 {    
 	public float noiseScale;
 	public int octaves;
+	[Range(1, 4)]
 	public float lacunarity;
 	[Range(0, 1)]
 	public float persistence;
@@ -14,11 +15,6 @@ public class NoiseData : UpdatableData
 
 	protected override void OnValidate()
 	{
-		if (lacunarity < 1)
-		{
-			lacunarity = 1;
-		}
-
 		if (octaves < 0)
 		{
 			octaves = 0;
