@@ -13,37 +13,43 @@ public class MapGenerator : MonoBehaviour
 
     public bool autoGenerate;
 
-    void OnValuesUpdated() {
+    void OnValuesUpdated()
+    {
         if (!Application.isPlaying)
         {
             this.GenerateMap();
         }
     }
 
-    void OnTextureValuesUpdated() {
+    void OnTextureValuesUpdated()
+    {
         textureData.ApplyToMaterial(terrainMaterial);
     }
-    public void GenerateMap() {
-        MapData mapData = GenerateMapData ();
+    public void GenerateMap()
+    {
+        var mapData = GenerateMapData();
 
         var meshGenerator = FindObjectOfType<MeshGenerator>();
         meshGenerator.GenerateMesh(mapData.heightMap, this.transform, terrainData.mapHeightMultiplier, terrainData.mapHeightCurve);
     }
 
-    public void GenerateWithRandomSeed() {
+    public void GenerateWithRandomSeed()
+    {
         noiseData.seed = Random.Range(0, int.MaxValue);
         GenerateMap();
     }
 
-    MapData GenerateMapData() {
+    MapData GenerateMapData()
+    {
 		float[,] noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, noiseData.seed, noiseData.noiseScale, noiseData.octaves, noiseData.lacunarity, noiseData.persistence, terrainData.useFalloff);
 
-		textureData.UpdateMeshHeights (terrainMaterial, terrainData.minHeight, terrainData.maxHeight);
+		textureData.UpdateMeshHeights(terrainMaterial, terrainData.minHeight, terrainData.maxHeight);
 
 		return new MapData (noiseMap);
 	}
 
-    void OnValidate() {
+    void OnValidate()
+    {
         textureData.UpdateMeshHeights(terrainMaterial, terrainData.minHeight, terrainData.maxHeight);
         textureData.ApplyToMaterial(terrainMaterial);
         
@@ -67,7 +73,8 @@ public class MapGenerator : MonoBehaviour
     }
 }
 
-public struct MapData {
+public struct MapData
+{
 	public readonly float[,] heightMap;
 
 	public MapData (float[,] heightMap)

@@ -6,16 +6,16 @@ using UnityEditor;
 [CustomEditor (typeof(UpdatableData), true)]
 public class UpdatatableDataEditor : Editor
 {
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
+	public override void OnInspectorGUI()
+	{
+		base.OnInspectorGUI();
 
-        UpdatableData data = (UpdatableData)target;
+		UpdatableData data = (UpdatableData)target;
 
-        if (GUILayout.Button("Update"))
-        {
-            data.NotifyOfUpdatedValues();
-            EditorUtility.SetDirty(target);
-        }
-    }
+		if (GUILayout.Button("Update"))
+		{
+			data.NotifyOfUpdatedValues();
+			EditorUtility.SetDirty(target);
+		}
+	}
 }

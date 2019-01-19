@@ -9,14 +9,18 @@ public class TerrainData : UpdatableData
     public float mapHeightMultiplier;
     public AnimationCurve mapHeightCurve;
 
-    public float minHeight {
-        get {
+    public float MinHeight
+    {
+        get
+        {
             return mapHeightMultiplier * mapHeightCurve.Evaluate(0);
         }
     }
 
-    public float maxHeight {
-        get {
+    public float MaxHeight
+    {
+        get
+        {
             return mapHeightMultiplier * mapHeightCurve.Evaluate(1);
         }
     }
